@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getLinkStats } from "../services/linkService";
-import API from "../api";
 
 export default function StatsPage() {
   const { code } = useParams();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:7000";
 
   useEffect(() => {
     loadStats();
@@ -46,12 +47,12 @@ export default function StatsPage() {
             r="10"
             stroke="currentColor"
             strokeWidth="4"
-          ></circle>
+          />
           <path
             className="opacity-75"
             fill="currentColor"
             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
+          />
         </svg>
       </div>
     );
@@ -63,10 +64,7 @@ export default function StatsPage() {
         <div className="bg-red-100 border border-red-400 text-red-700 p-4 rounded-lg">
           {error}
         </div>
-        <Link
-          to="/"
-          className="inline-block mt-4 text-blue-600 hover:underline"
-        >
+        <Link to="/" className="inline-block mt-4 text-blue-600 hover:underline">
           ← Back to Dashboard
         </Link>
       </div>
@@ -75,10 +73,7 @@ export default function StatsPage() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 mt-10">
-      <Link
-        to="/"
-        className="inline-block mb-4 text-blue-600 hover:underline"
-      >
+      <Link to="/" className="inline-block mb-4 text-blue-600 hover:underline">
         ← Back to Dashboard
       </Link>
 
@@ -100,20 +95,26 @@ export default function StatsPage() {
             </a>
           </div>
 
-          <div className="border-b pb-3">
-            <p className="text-sm text-gray-500">Short URL</p>
-            <p className="font-medium">
-              {API}/{code}
-            </p>
-          </div>
+         <div className="border-b pb-3">
+  <p className="text-sm text-gray-500">Short URL</p>
+  <a
+    href={`${API_URL}/${code}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="font-medium text-blue-600 hover:underline break-all"
+  >
+    {API_URL}/{code}
+  </a>
+</div>
+
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-blue-50 p-4 rounded-lg">
+            <div className="bg-blue-50 p-4 rounded-lg text-center">
               <p className="text-sm text-gray-500">Total Clicks</p>
               <p className="text-3xl font-bold text-blue-600">{data.clicks}</p>
             </div>
 
-            <div className="bg-green-50 p-4 rounded-lg">
+            <div className="bg-green-50 p-4 rounded-lg text-center">
               <p className="text-sm text-gray-500">Last Clicked</p>
               <p className="text-lg font-medium text-green-600">
                 {data.last_clicked
@@ -125,9 +126,7 @@ export default function StatsPage() {
 
           <div className="border-t pt-3">
             <p className="text-sm text-gray-500">Created At</p>
-            <p className="font-medium">
-              {new Date(data.created_at).toLocaleString()}
-            </p>
+            <p className="font-medium">{new Date(data.created_at).toLocaleString()}</p>
           </div>
         </div>
       </div>
