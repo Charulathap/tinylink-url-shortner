@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getLinkStats } from "../services/linkService";
+import API from "../api";
 
 export default function StatsPage() {
   const { code } = useParams();
@@ -102,7 +103,7 @@ export default function StatsPage() {
           <div className="border-b pb-3">
             <p className="text-sm text-gray-500">Short URL</p>
             <p className="font-medium">
-              {window.location.origin.replace(':5173', ':7000')}/{code}
+              {API}/{code}
             </p>
           </div>
 
